@@ -45,7 +45,7 @@ export default function Main({
               alt="botão para alterar perfil"
             />
           </button>
-          <p className="profile__info-discription">{currentUser.about}</p> //
+          <p className="profile__info-discription">{currentUser.about}</p>
         </div>
         <button
           className="profile__button-include"
