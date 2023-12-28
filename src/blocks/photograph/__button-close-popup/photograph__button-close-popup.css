@@ -1,0 +1,26 @@
+.photograph__button-close-popup {
+  position: absolute;
+  right: -47px;
+  top: -47px;
+  background: url(../../../images/Close_Icon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.photograph__button-close-popup:hover {
+  opacity: 0.8;
+  border-radius: 2px;
+}
+
+@media screen and ( max-width: 588px) {
+  .photograph__button-close-popup {
+    width: 26px;
+    height: 26px;
+    right: 0px;
+    top: -39.62px;
+}
+}

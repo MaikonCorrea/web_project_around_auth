@@ -1,0 +1,20 @@
+.place {
+  max-width: 282px;
+  width: 100%;
+  position: relative;
+  list-style: none;
+}
+
+@media screen and ( max-width: 768px) {
+  .place {
+    max-width: 347px;
+    height: 430px;
+  }
+}
+
+@media screen and ( max-width: 588px) {
+  .place {
+    width: 282px;
+    height: 361px;
+    }
+  }

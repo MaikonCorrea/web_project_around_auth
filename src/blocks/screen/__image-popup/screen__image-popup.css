@@ -1,0 +1,6 @@
+.screen__image-popup {
+  position: relative;
+  list-style: none;
+  top: 90px;
+  height: 0;
+}

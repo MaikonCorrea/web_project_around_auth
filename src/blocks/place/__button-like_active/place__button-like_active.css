@@ -1,0 +1,4 @@
+.place__button-like_active {
+  background: url('../../../images/button_Like_Able.png') center no-repeat;
+  background-size: contain;
+  }

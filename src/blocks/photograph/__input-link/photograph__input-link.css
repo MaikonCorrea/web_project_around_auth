@@ -1,0 +1,19 @@
+.photograph__input-link {
+  border: none;
+  width: 358px;
+  height: 24px;
+  border-bottom: 1px solid #bcbcc4;
+  background-color: transparent;
+  margin-top: 30px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+
+@media screen and ( max-width: 588px) {
+  .photograph__input-link {
+    width: 238px;
+    height: 17px;
+    }
+}

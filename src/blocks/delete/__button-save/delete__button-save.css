@@ -1,0 +1,29 @@
+.delete__button-save {
+  width: 358px;
+  height: 50px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #FFFFFF;
+  background: #000000;
+  border-radius: 2px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  border: none;
+  }
+  @media screen and ( max-width: 588px) {
+    .delete__button-save {
+      width: 238px;
+      height: 26px;
+      font-size: 14px;
+      line-height: 17px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      }
+  }
+  .delete__button-save:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }

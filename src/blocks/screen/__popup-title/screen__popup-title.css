@@ -1,0 +1,17 @@
+.screen__popup-title {
+  width: 291px;
+  height: 12px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  position: relative;
+  color: #FFFFFF;
+  bottom: -10px;
+}
+
+@media screen and ( max-width: 588px) {
+  .screen__popup-title {
+    width: 240px;
+}
+}

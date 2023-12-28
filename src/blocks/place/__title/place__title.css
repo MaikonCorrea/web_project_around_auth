@@ -1,0 +1,25 @@
+.place__title {
+  max-width: 246px;
+  height: 30px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin-left: 25px;
+  color: #000000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and ( max-width: 768px) {
+  .place__title {
+    max-width: 347px;
+    }
+}
+
+@media screen and ( max-width: 588px) {
+  .place__title {
+    width: 282px;
+    }
+}

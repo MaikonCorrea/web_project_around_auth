@@ -1,0 +1,22 @@
+.photograph__popup-title {
+  width: 358px;
+  height: 23px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin-bottom: 24px;
+  margin-top: 34px;
+  color: #000000;
+  }
+
+  @media screen and ( max-width: 588px) {
+    .photograph__popup-title {
+      width: 238px;
+      height: 22px;
+      font-size: 18px;
+      line-height: 22px;
+      margin-top: 25px;
+      margin-bottom: 76px;
+      }
+  }

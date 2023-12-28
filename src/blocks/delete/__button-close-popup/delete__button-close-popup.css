@@ -1,0 +1,26 @@
+.delete__button-close-popup {
+  background: url(../../../images/Close_Icon.png);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  height: 49px;
+  position: absolute;
+  right: -37px;
+  top: -42px;
+  width: 40px;
+}
+
+.delete__button-close-popup:hover {
+  opacity: 0.8;
+  border-radius: 2px;
+}
+
+@media screen and ( max-width: 588px) {
+  .delete__button-close-popup {
+    width: 26px;
+    height: 26px;
+    right: 0px;
+    top: -39.62px;
+}
+}

@@ -1,0 +1,7 @@
+.screen__image_opened {
+  display: flex;
+  justify-content: center;
+  opacity: 1;
+  height: 100%;
+  transition: opacity 0.3s ease, height 0s ease;
+}
