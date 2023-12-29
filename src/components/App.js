@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Route, Switch, Redirect} from 'react-router-dom'
+
+import Register from "./Register";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -13,6 +18,7 @@ import clientAPI from "../utils/api";
 
 import "../index.css";
 
+
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -21,8 +27,8 @@ export default function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardToDelete, setCardToDelete] = useState(null);
   const [cards, setCards] = useState([]);
-
   const [currentUser, setCurrentUser] = useState({});
+  const [isLoggedIn, setIsLogggedIn] = useState(false);
 
   useEffect(() => {
     clientAPI.getUsers().then((res) => {
@@ -152,67 +158,79 @@ export default function App() {
 
   return (
     <>
-      <Header />
-      <CurrentUserContext.Provider value={currentUser}>
-        <CurrentCardsContext.Provider value={cards}>
-          <Main
-            onAddPlaceClick={handleAddPlaceClick}
-            onEditAvatarClick={handleEditAvatarClick}
-            onEditProfileClick={handleEditProfileClick}
-            onCardClick={handleCardClick}
-            setCards={setCards}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleDeleteCardClick}
-          />
-
-          {selectedCard && (
-            <ImagePopup
-              card={selectedCard}
-              isOpen={true}
-              onClose={closeAllPopups}
+    <Switch>
+    <Route path='/register'>
+        <Header isLoggedIn={isLoggedIn} />
+        <Register />
+      </Route>
+      <Route path='/login'>
+        <Header isLoggedIn={isLoggedIn} />
+        <Login />
+      </Route>
+      <ProtectedRoute isLoggedIn={isLoggedIn} path='/profile'>
+        <Route path='/profile'>
+        <Header isLoggedIn={isLoggedIn}/>
+        <CurrentUserContext.Provider value={currentUser}>
+          <CurrentCardsContext.Provider value={cards}>
+            <Main
+              onAddPlaceClick={handleAddPlaceClick}
+              onEditAvatarClick={handleEditAvatarClick}
+              onEditProfileClick={handleEditProfileClick}
+              onCardClick={handleCardClick}
+              setCards={setCards}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleDeleteCardClick}
             />
-          )}
-
-          {isEditAvatarPopupOpen && (
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onSave={handleUpdateAvatar}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
-          )}
-
-          {isEditProfilePopupOpen && (
-            <EditProfilePopup
-              isOpen={handleEditProfileClick}
-              onClose={closeAllPopups}
-              onSave={handleUpdateUser}
-              onUpdateUser={handleUpdateUser}
-            />
-          )}
-
-          {isAddPlacePopupOpen && (
-            <AddPlacePopup
-              isOpen={handleAddPlaceClick}
-              onClose={closeAllPopups}
-              onAddPlaceSubmit={handleAddPlaceSubmit}
-            />
-          )}
-
-          {isDeletePopupOpen && (
-            <DeletePopupCard
-              isOpen={handleDeleteCardClick}
-              onClose={() => setIsDeletePopupOpen(false)}
-              handleCardDelete={() => {
-                handleCardDelete();
-              }}
-            />
-          )}
-
-          <Footer />
-        </CurrentCardsContext.Provider>
-      </CurrentUserContext.Provider>
+            {selectedCard && (
+              <ImagePopup
+                card={selectedCard}
+                isOpen={true}
+                onClose={closeAllPopups}
+              />
+            )}
+            {isEditAvatarPopupOpen && (
+              <EditAvatarPopup
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+                onSave={handleUpdateAvatar}
+                onUpdateAvatar={handleUpdateAvatar}
+              />
+            )}
+            {isEditProfilePopupOpen && (
+              <EditProfilePopup
+                isOpen={handleEditProfileClick}
+                onClose={closeAllPopups}
+                onSave={handleUpdateUser}
+                onUpdateUser={handleUpdateUser}
+              />
+            )}
+            {isAddPlacePopupOpen && (
+              <AddPlacePopup
+                isOpen={handleAddPlaceClick}
+                onClose={closeAllPopups}
+                onAddPlaceSubmit={handleAddPlaceSubmit}
+              />
+            )}
+            {isDeletePopupOpen && (
+              <DeletePopupCard
+                isOpen={handleDeleteCardClick}
+                onClose={() => setIsDeletePopupOpen(false)}
+                handleCardDelete={() => {
+                  handleCardDelete();
+                }}
+              />
+            )}
+            <Footer />
+          </CurrentCardsContext.Provider>
+        </CurrentUserContext.Provider>
+        </Route>
+      </ProtectedRoute>
+      <Route path='/'>
+        {isLoggedIn ? <Redirect to='/profile' /> : <Redirect to='/login' /> }
+      </Route>
+      </Switch>
+    
     </>
   );
 }
