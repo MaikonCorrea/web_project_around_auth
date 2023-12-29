@@ -7,7 +7,7 @@
 body {
   max-width: 1280px;
   width: 100%;
-  min-height: 100vh;
+  max-height: 100vh;
   font-family: "Inter", sans-serif;
   background-color: #000000;
   margin: auto;
