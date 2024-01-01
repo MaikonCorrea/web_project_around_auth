@@ -1,10 +1,12 @@
+
+
 import imageError from "../images/image_error.png";
 import imageOk from "../images/image_ok.png";
 
 
 function InfoTooltip() {
   return (
-    <div className="info info__popup_opened">
+    <div className="info">
       <div className="info__popup">
         {/* <img className="info__image" src={imageError} alt="imagem de erro" /> */}
         <img className="info__image" src={imageOk} alt="imagem de sucesso" />
