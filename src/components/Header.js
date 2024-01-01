@@ -1,9 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import headerLogo from "../images/Vector_Around.png";
 
 export default function Header({ isLoggedIn, handleLogout }) {
   const location = useLocation();
+  const history = useHistory();
+  function SignOut() {
+    handleLogout()
+    localStorage.removeItem('jwt')
+    history.push('/login')
+  }
 
   return (
     <>
@@ -26,7 +32,7 @@ export default function Header({ isLoggedIn, handleLogout }) {
             {isLoggedIn && location.pathname === "/profile" && (
               <>
                 <p className="header__menu-email">exemplo@gmail.com</p>
-                <button onClick={handleLogout} className="header__menu-button">
+                <button onClick={SignOut} className="header__menu-button">
                   Sair
                 </button>
               </>
