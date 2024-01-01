@@ -1,8 +1,8 @@
-import {Link, useLocation} from 'react-router-dom'
+import { Link, useLocation } from "react-router-dom";
 
 import headerLogo from "../images/Vector_Around.png";
 
-export default function Header({ isLoggedIn }) {
+export default function Header({ isLoggedIn, handleLogout }) {
   const location = useLocation();
 
   return (
@@ -10,25 +10,27 @@ export default function Header({ isLoggedIn }) {
       <header className="header">
         <div className="header__container">
           <img className="header__logo" src={headerLogo} alt="logo do site" />
-          <div className="header__discription">
-          {location.pathname === '/login' && (
-            <Link to="/login" className="header__button">
-              Entrar
-            </Link>
-          )}
+          <div className="header__menu">
+            {location.pathname === "/login" && (
+              <Link to="/login" className="header__menu-button">
+                Entrar
+              </Link>
+            )}
 
-          {location.pathname === '/register' && (
-            <Link to="/register" className="header__button">
-              Faça o login
-            </Link>
-          )}
+            {location.pathname === "/register" && (
+              <Link to="/register" className="header__menu-button">
+                Faça o login
+              </Link>
+            )}
 
-          {isLoggedIn && location.pathname === '/profile' && (
-            <>
-              <p className="header__subtitle">exemplo@gmail.com</p>
-              <button className="header__button">Sair</button>
-            </>
-          )}
+            {isLoggedIn && location.pathname === "/profile" && (
+              <>
+                <p className="header__menu-email">exemplo@gmail.com</p>
+                <button onClick={handleLogout} className="header__menu-button">
+                  Sair
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div className="header__line"></div>
