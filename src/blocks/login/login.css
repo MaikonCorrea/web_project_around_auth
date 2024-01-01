@@ -5,6 +5,7 @@
   margin: auto;
   margin-top: 60px;
   text-align: center;
+  align-items: center;
 }
 
 .login__title {
@@ -54,17 +55,27 @@ input:-webkit-autofill {
   background: rgba(255, 255, 255, 0.548);
 }
 
-.login__link {
+.login__signup {
+  display: flex;
   color: #ffffff;
   font-size: 14px;
   font-weight: 400;
   line-height: normal;
   margin-top: 15px;
-  cursor: pointer;
-  text-decoration: none;
+ 
 }
 
-.login__link:hover {
+.signup__link {
+  margin-left: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.signup__link:hover {
  color: rgba(255, 255, 255, 0.548);
 }
 
