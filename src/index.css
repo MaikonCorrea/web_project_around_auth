@@ -88,3 +88,8 @@
 @import url(./blocks/loading/loading.css);
 /* login */
 @import url(./blocks/login/login.css);
+/*  register */
+@import url(./blocks/register/register.css);
+/* info */
+@import url(./blocks/info/info.css);
+
