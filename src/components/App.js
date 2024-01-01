@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect} from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
 import Register from "./Register";
 import Login from "./Login";
@@ -15,11 +15,12 @@ import DeletePopupCard from "./DeletePopupCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentCardsContext from "../contexts/CurrentCardsContext";
 import clientAPI from "../utils/api";
+import * as auth from "../utils/auth";
 
 import "../index.css";
+import InfoTooltip from "./InfoTooltip";
 
-
-export default function App() {
+function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -28,7 +29,31 @@ export default function App() {
   const [cardToDelete, setCardToDelete] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  const [isLoggedIn, setIsLogggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    handleTokenCheck();
+  });
+
+  async function handleTokenCheck() {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      try {
+        const response = await auth.checkToken(jwt);
+        console.log(response);
+      } catch (error) {
+        console.log("Error no check token jwt:", error);
+      }
+    }
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+  }
+
+  function handleLogin() {
+    setIsLoggedIn(true);
+  }
 
   useEffect(() => {
     clientAPI.getUsers().then((res) => {
@@ -158,79 +183,80 @@ export default function App() {
 
   return (
     <>
-    <Switch>
-    <Route path='/register'>
-        <Header isLoggedIn={isLoggedIn} />
-        <Register />
-      </Route>
-      <Route path='/login'>
-        <Header isLoggedIn={isLoggedIn} />
-        <Login />
-      </Route>
-      <ProtectedRoute isLoggedIn={isLoggedIn} path='/profile'>
-        <Route path='/profile'>
-        <Header isLoggedIn={isLoggedIn}/>
-        <CurrentUserContext.Provider value={currentUser}>
-          <CurrentCardsContext.Provider value={cards}>
-            <Main
-              onAddPlaceClick={handleAddPlaceClick}
-              onEditAvatarClick={handleEditAvatarClick}
-              onEditProfileClick={handleEditProfileClick}
-              onCardClick={handleCardClick}
-              setCards={setCards}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleDeleteCardClick}
-            />
-            {selectedCard && (
-              <ImagePopup
-                card={selectedCard}
-                isOpen={true}
-                onClose={closeAllPopups}
-              />
-            )}
-            {isEditAvatarPopupOpen && (
-              <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-                onSave={handleUpdateAvatar}
-                onUpdateAvatar={handleUpdateAvatar}
-              />
-            )}
-            {isEditProfilePopupOpen && (
-              <EditProfilePopup
-                isOpen={handleEditProfileClick}
-                onClose={closeAllPopups}
-                onSave={handleUpdateUser}
-                onUpdateUser={handleUpdateUser}
-              />
-            )}
-            {isAddPlacePopupOpen && (
-              <AddPlacePopup
-                isOpen={handleAddPlaceClick}
-                onClose={closeAllPopups}
-                onAddPlaceSubmit={handleAddPlaceSubmit}
-              />
-            )}
-            {isDeletePopupOpen && (
-              <DeletePopupCard
-                isOpen={handleDeleteCardClick}
-                onClose={() => setIsDeletePopupOpen(false)}
-                handleCardDelete={() => {
-                  handleCardDelete();
-                }}
-              />
-            )}
-            <Footer />
-          </CurrentCardsContext.Provider>
-        </CurrentUserContext.Provider>
+      <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+
+      <Switch>
+        <Route path="/register">
+          <Register />
+          <InfoTooltip />
         </Route>
-      </ProtectedRoute>
-      <Route path='/'>
-        {isLoggedIn ? <Redirect to='/profile' /> : <Redirect to='/login' /> }
-      </Route>
+        <Route path="/login">
+          <Login handleLogin={handleLogin} />
+        </Route>
+        <ProtectedRoute isLoggedIn={isLoggedIn} path="/profile">
+          <Route path="/profile">
+            <CurrentUserContext.Provider value={currentUser}>
+              <CurrentCardsContext.Provider value={cards}>
+                <Main
+                  onAddPlaceClick={handleAddPlaceClick}
+                  onEditAvatarClick={handleEditAvatarClick}
+                  onEditProfileClick={handleEditProfileClick}
+                  onCardClick={handleCardClick}
+                  setCards={setCards}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleDeleteCardClick}
+                />
+                {selectedCard && (
+                  <ImagePopup
+                    card={selectedCard}
+                    isOpen={true}
+                    onClose={closeAllPopups}
+                  />
+                )}
+                {isEditAvatarPopupOpen && (
+                  <EditAvatarPopup
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={closeAllPopups}
+                    onSave={handleUpdateAvatar}
+                    onUpdateAvatar={handleUpdateAvatar}
+                  />
+                )}
+                {isEditProfilePopupOpen && (
+                  <EditProfilePopup
+                    isOpen={handleEditProfileClick}
+                    onClose={closeAllPopups}
+                    onSave={handleUpdateUser}
+                    onUpdateUser={handleUpdateUser}
+                  />
+                )}
+                {isAddPlacePopupOpen && (
+                  <AddPlacePopup
+                    isOpen={handleAddPlaceClick}
+                    onClose={closeAllPopups}
+                    onAddPlaceSubmit={handleAddPlaceSubmit}
+                  />
+                )}
+                {isDeletePopupOpen && (
+                  <DeletePopupCard
+                    isOpen={handleDeleteCardClick}
+                    onClose={() => setIsDeletePopupOpen(false)}
+                    handleCardDelete={() => {
+                      handleCardDelete();
+                    }}
+                  />
+                )}
+                <Footer />
+              </CurrentCardsContext.Provider>
+            </CurrentUserContext.Provider>
+          </Route>
+        </ProtectedRoute>
+        <Route exact path="/">
+          {isLoggedIn ? <Redirect to="/profile" /> : <Redirect to="/login" />}
+        </Route>
       </Switch>
-    
     </>
   );
 }
+
+export default withRouter(App);
