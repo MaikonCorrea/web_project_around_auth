@@ -1,23 +1,35 @@
 import React, { useState } from "react";
-import { Link, withRouter} from "react-router-dom";
+import { Link, withRouter, useHistory} from "react-router-dom";
 
 import * as auth from "../utils/auth";
 
 function Login({ handleLogin }) {
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
+      //criar mensagem de erro como tratamento
       return;
     }
-    auth
-      .authorize({ email, password })
-      .then((res) => {
-        handleLogin();
-      })
-      .catch(console.log());
+    try {
+      let response = await auth.authorize({ email, password })
+      if (response.status === 401) {
+        alert('valide o email ou a senha, algo está errado!')
+      }
+      response = await response.json()
+      if (response.token) {
+        handleLogin()
+        localStorage.setItem('jwt', response.token)
+        history.push('/profile')        
+      }
+
+    } catch (error) {
+      console.log('Error login:', error)
+    }
   };
 
   return (
