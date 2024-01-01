@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter, useHistory } from "react-router-dom";
 
 import Register from "./Register";
 import Login from "./Login";
@@ -21,6 +21,8 @@ import "../index.css";
 import InfoTooltip from "./InfoTooltip";
 
 function App() {
+  const history = useHistory();
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -33,14 +35,17 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-  });
+  },[]);
 
   async function handleTokenCheck() {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
+      //melhorar a validação e colocar tempo
       try {
         const response = await auth.checkToken(jwt);
         console.log(response);
+        setIsLoggedIn(true)
+        history.push('/profile');
       } catch (error) {
         console.log("Error no check token jwt:", error);
       }
@@ -53,6 +58,7 @@ function App() {
 
   function handleLogin() {
     setIsLoggedIn(true);
+
   }
 
   useEffect(() => {
