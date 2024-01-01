@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
 
 function Register() {
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .register(email, password)
-      .then((res) => console.log(res))
-      .catch(console.log);
+    if (!email || !password) {
+      try {
+        const response = auth.register({ email, password })
+        if (response.ok) {
+          history.push('/login')
+        }
+      } catch (error) {
+        console.log('Error no Registro:', error)
+      }
+    }
   };
 
   return (
