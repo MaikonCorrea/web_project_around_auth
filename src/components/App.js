@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect, withRouter, useHistory } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter,
+  useHistory,
+} from "react-router-dom";
 
 import Register from "./Register";
 import Login from "./Login";
@@ -32,34 +38,11 @@ function App() {
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [emailUser, setEmailUser] = useState("");
 
   useEffect(() => {
     handleTokenCheck();
-  },[]);
-
-  async function handleTokenCheck() {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
-      //melhorar a validação e colocar tempo
-      try {
-        const response = await auth.checkToken(jwt);
-        console.log(response);
-        setIsLoggedIn(true)
-        history.push('/profile');
-      } catch (error) {
-        console.log("Error no check token jwt:", error);
-      }
-    }
-  }
-
-  function handleLogout() {
-    setIsLoggedIn(false);
-  }
-
-  function handleLogin() {
-    setIsLoggedIn(true);
-
-  }
+  }, []);
 
   useEffect(() => {
     clientAPI.getUsers().then((res) => {
@@ -72,6 +55,37 @@ function App() {
       setCards(result);
     });
   }, []);
+
+  async function handleTokenCheck() {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      //melhorar a validação e colocar tempo
+      try {
+        const response = await auth.checkToken(jwt);
+        const {data} = await response.json();
+        setEmailUser(data.email)
+        setIsLoggedIn(true);
+        history.push("/profile");
+        } catch (error) {
+        console.log("Error no check token jwt:", error);
+      }
+    }
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+  }
+
+  async function handleLogin(token) {
+      setIsLoggedIn(true);
+      try {
+        const response = await auth.checkToken(token);
+        const {data} = await response.json();
+        setEmailUser(data.email);
+      } catch (error) {
+        console.log("erro em solicitar retorno do data", error);
+      }
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -189,7 +203,11 @@ function App() {
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        handleLogout={handleLogout}
+        userEmail={emailUser}
+      />
 
       <Switch>
         <Route path="/register">
