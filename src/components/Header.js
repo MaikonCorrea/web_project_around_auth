@@ -2,7 +2,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 
 import headerLogo from "../images/Vector_Around.png";
 
-export default function Header({ isLoggedIn, handleLogout }) {
+export default function Header({ isLoggedIn, handleLogout, userEmail }) {
   const location = useLocation();
   const history = useHistory();
   function SignOut() {
@@ -31,7 +31,7 @@ export default function Header({ isLoggedIn, handleLogout }) {
 
             {isLoggedIn && location.pathname === "/profile" && (
               <>
-                <p className="header__menu-email">exemplo@gmail.com</p>
+                 <p className="header__menu-email">{userEmail}</p>
                 <button onClick={SignOut} className="header__menu-button">
                   Sair
                 </button>
