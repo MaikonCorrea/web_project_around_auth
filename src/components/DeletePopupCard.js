@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-export default function DeletePopupCard(props) {
+export default function DeletePopupCard({isOpen, onClose, handleCardDelete}) {
   const [shouldRenderPopup, setShouldRenderPopup] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === "Escape" && props.isOpen) {
+      if (event.key === "Escape" && isOpen) {
         setIsClosing(true);
 
         setTimeout(() => {
           setIsClosing(true);
-          props.onClose();
+          onClose();
         }, 200);
       }
     };
@@ -21,10 +21,10 @@ export default function DeletePopupCard(props) {
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [props.isOpen, props.onClose]);
+  }, [isOpen, onClose]);
 
   useEffect(() => {
-    if (props.isOpen) {
+    if (isOpen) {
       setIsClosing(false);
 
       const timeoutId = setTimeout(() => {
@@ -46,21 +46,21 @@ export default function DeletePopupCard(props) {
         clearTimeout(timeoutId);
       };
     }
-  }, [props.isOpen]);
+  }, [isOpen]);
 
   const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
       event.preventDefault();
       setIsClosing(true);
       setTimeout(() => {
-        props.onClose();
+        onClose();
       }, 150);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.handleCardDelete();
+    handleCardDelete();
   };
 
   return (
