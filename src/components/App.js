@@ -227,21 +227,21 @@ function App() {
           <Register activeInfo={(params) => {
             handleInfoPopup(params);
           }}/>
-          <InfoTooltip
+         {isPopupInfoOpen && (<InfoTooltip
             isOpen={isPopupInfoOpen}
             onClose={closeAllPopups}
             isSuccess={false}
-          />
+          />)}
         </Route>
         <Route path="/login">
           <Login handleLogin={handleLogin} handleLogout={handleLogout} activeInfo={(params) => {
             handleInfoPopup(params)
           }}/>
-          <InfoTooltip
+          {isPopupInfoOpen && (<InfoTooltip
             isOpen={isPopupInfoOpen}
             onClose={closeAllPopups}
             isSuccess={isSuccess}
-          />
+          />)}
         </Route>
         <ProtectedRoute isLoggedIn={isLoggedIn} path="/profile">
           <Route path="/profile">
