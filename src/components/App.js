@@ -18,13 +18,14 @@ import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import DeletePopupCard from "./DeletePopupCard";
+import InfoTooltip from "./InfoTooltip";
+
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentCardsContext from "../contexts/CurrentCardsContext";
 import clientAPI from "../utils/api";
 import * as auth from "../utils/auth";
 
 import "../index.css";
-import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const history = useHistory();
@@ -33,12 +34,14 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isPopupInfoOpen, setIsPopupInfoOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardToDelete, setCardToDelete] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [emailUser, setEmailUser] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     handleTokenCheck();
@@ -62,11 +65,11 @@ function App() {
       //melhorar a validação e colocar tempo
       try {
         const response = await auth.checkToken(jwt);
-        const {data} = await response.json();
-        setEmailUser(data.email)
+        const { data } = await response.json();
+        setEmailUser(data.email);
         setIsLoggedIn(true);
         history.push("/profile");
-        } catch (error) {
+      } catch (error) {
         console.log("Error no check token jwt:", error);
       }
     }
@@ -77,14 +80,14 @@ function App() {
   }
 
   async function handleLogin(token) {
-      setIsLoggedIn(true);
-      try {
-        const response = await auth.checkToken(token);
-        const {data} = await response.json();
-        setEmailUser(data.email);
-      } catch (error) {
-        console.log("erro em solicitar retorno do data", error);
-      }
+    setIsLoggedIn(true);
+    try {
+      const response = await auth.checkToken(token);
+      const { data } = await response.json();
+      setEmailUser(data.email);
+    } catch (error) {
+      console.log("erro em solicitar retorno do data", error);
+    }
   }
 
   function handleEditAvatarClick() {
@@ -103,12 +106,23 @@ function App() {
     setIsDeletePopupOpen(true);
     setCardToDelete(card);
   }
+//chegou aqui o comando dado falta fazer funcionar
+  function handleInfoPopup(params) {
+    if (params === false) {
+      setIsPopupInfoOpen(true);
+      setIsSuccess(false);
+    }else {
+      setIsPopupInfoOpen(true);
+      setIsSuccess(true);
+    }
+  }
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsDeletePopupOpen(false);
+    setIsPopupInfoOpen(false);
     setSelectedCard(null);
   }
 
@@ -208,14 +222,26 @@ function App() {
         handleLogout={handleLogout}
         userEmail={emailUser}
       />
-
       <Switch>
         <Route path="/register">
-          <Register />
-          <InfoTooltip />
+          <Register activeInfo={(params) => {
+            handleInfoPopup(params);
+          }}/>
+          <InfoTooltip
+            isOpen={isPopupInfoOpen}
+            onClose={closeAllPopups}
+            isSuccess={false}
+          />
         </Route>
         <Route path="/login">
-          <Login handleLogin={handleLogin} />
+          <Login handleLogin={handleLogin} activeInfo={(params) => {
+            handleInfoPopup(params)
+          }}/>
+          <InfoTooltip
+            isOpen={isPopupInfoOpen}
+            onClose={closeAllPopups}
+            isSuccess={isSuccess}
+          />
         </Route>
         <ProtectedRoute isLoggedIn={isLoggedIn} path="/profile">
           <Route path="/profile">
