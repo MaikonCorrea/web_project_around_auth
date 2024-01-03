@@ -3,7 +3,7 @@ import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
 
-function Register() {
+function Register({activeInfo}) {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -15,29 +15,31 @@ function Register() {
     e.preventDefault();
 
     if (!email || !password) {
-      console.log("Email e senha são obrigatórios.");
+      activePopupInfo(false);
       return;
     }
 
     try {
       const response = await auth.register({ email, password });
       if (response.ok) {
-        console.log("Registro bem-sucedido!");
+        activePopupInfo(true);
         history.push("/login");
-      } else {
-        console.log("Falha no registro:", response.error);
-
+        } else {
+          activePopupInfo(false);
         if (response.status === 400) {
+          activePopupInfo(false)
           console.log(
             "Um dos campos foi preenchido incorretamente:",
             response.status
           );
         } else if (response.status === 401) {
+          activePopupInfo(false)
           console.log(
             "Não autorizado: Verifique suas credenciais.",
             response.status
           );
         } else {
+          activePopupInfo(false)
           console.log(
             "Erro desconhecido ao tentar registrar:",
             response.status
@@ -49,12 +51,12 @@ function Register() {
     }
   }
 
-  const validateEmail = (emailInput) => {
+  function validateEmail(emailInput) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(emailInput);
   };
 
-  const validatePassword = (passwordInput) => {
+ function validatePassword(passwordInput) {
     const passwordRegex = /^.{6,}$/;
     return passwordRegex.test(passwordInput);
   };
@@ -78,6 +80,10 @@ function Register() {
       );
     }
   };
+
+  function activePopupInfo(params) {
+    activeInfo(params);
+  }
 
   return (
     <>
