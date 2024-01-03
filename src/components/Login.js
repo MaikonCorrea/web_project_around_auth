@@ -3,7 +3,7 @@ import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
 
-function Login({ handleLogin, activeInfo }) {
+function Login({ handleLogin, handleLogout, activeInfo }) {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -14,19 +14,27 @@ function Login({ handleLogin, activeInfo }) {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
-      //criar mensagem de erro como tratamento
+      activePopupInfo(false);
       return;
     }
     try {
       let response = await auth.authorize({ email, password });
       if (response.status === 401) {
         activePopupInfo(false);
-       /*  alert("valide o email ou a senha, algo está errado!"); */
       }
       response = await response.json();
       if (response.token) {
-        localStorage.setItem("jwt", response.token);
-        handleLogin(response.token);
+        const expirationTimeInHours = 24;
+        const expirationTimeInMilliseconds = expirationTimeInHours * 60 * 60 * 1000;
+        const token = response.token;
+        localStorage.setItem("jwt", token);
+        handleLogin(token);
+        history.push("/profile");
+        setTimeout(() => {
+          localStorage.removeItem("jwt");
+           handleLogout();
+           history.push("/login");
+        }, expirationTimeInMilliseconds);
         history.push("/profile");
       }
     } catch (error) {
@@ -34,17 +42,17 @@ function Login({ handleLogin, activeInfo }) {
     }
   }
 
-  const validateEmail = (emailInput) => {
+  function validateEmail(emailInput) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(emailInput);
   };
 
-  const validatePassword = (passwordInput) => {
+  function validatePassword(passwordInput) {
     const passwordRegex = /^.{6,}$/;
     return passwordRegex.test(passwordInput);
   };
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     if (name === "email") {
       setEmail(value);
@@ -63,8 +71,8 @@ function Login({ handleLogin, activeInfo }) {
     }
   };
 
-  function activePopupInfo(oi) {
-    activeInfo(oi);
+  function activePopupInfo(params) {
+    activeInfo(params);
   }
 
   return (

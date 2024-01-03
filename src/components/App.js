@@ -106,7 +106,7 @@ function App() {
     setIsDeletePopupOpen(true);
     setCardToDelete(card);
   }
-//chegou aqui o comando dado falta fazer funcionar
+
   function handleInfoPopup(params) {
     if (params === false) {
       setIsPopupInfoOpen(true);
@@ -234,7 +234,7 @@ function App() {
           />
         </Route>
         <Route path="/login">
-          <Login handleLogin={handleLogin} activeInfo={(params) => {
+          <Login handleLogin={handleLogin} handleLogout={handleLogout} activeInfo={(params) => {
             handleInfoPopup(params)
           }}/>
           <InfoTooltip
