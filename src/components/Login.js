@@ -3,7 +3,7 @@ import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, activeInfo }) {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -20,7 +20,8 @@ function Login({ handleLogin }) {
     try {
       let response = await auth.authorize({ email, password });
       if (response.status === 401) {
-        alert("valide o email ou a senha, algo está errado!");
+        activePopupInfo(false);
+       /*  alert("valide o email ou a senha, algo está errado!"); */
       }
       response = await response.json();
       if (response.token) {
@@ -61,6 +62,10 @@ function Login({ handleLogin }) {
       );
     }
   };
+
+  function activePopupInfo(oi) {
+    activeInfo(oi);
+  }
 
   return (
     <>
