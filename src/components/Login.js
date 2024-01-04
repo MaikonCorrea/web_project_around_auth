@@ -66,7 +66,7 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
       setPasswordError(
         value.trim() === "" || validatePassword(value)
           ? ""
-          : "A senha deve conter no mínimo 8 caracteres"
+          : "A senha deve conter no mínimo 6 caracteres"
       );
     }
   };

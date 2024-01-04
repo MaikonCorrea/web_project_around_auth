@@ -71,7 +71,7 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
           <img className="info__image" src={imageError} alt="imagem de erro" />
         )}
         {isSuccess ? (
-          <p className="info__description">Vitória! Você precisa se registrar.</p>
+          <p className="info__description">Vitória! Você precisa fazer o login.</p>
         ) : (
           <p className="info__description">
             Ops, algo saiu deu errado! Por favor, tente novamente.

@@ -3,7 +3,7 @@ import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
 
-function Register({activeInfo}) {
+function Register({ activeInfo }) {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -23,23 +23,25 @@ function Register({activeInfo}) {
       const response = await auth.register({ email, password });
       if (response.ok) {
         activePopupInfo(true);
+        setEmail("");
+        setPassword("");
         history.push("/login");
-        } else {
-          activePopupInfo(false);
+      } else {
+        activePopupInfo(false);
         if (response.status === 400) {
-          activePopupInfo(false)
+          activePopupInfo(false);
           console.log(
             "Um dos campos foi preenchido incorretamente:",
             response.status
           );
         } else if (response.status === 401) {
-          activePopupInfo(false)
+          activePopupInfo(false);
           console.log(
             "Não autorizado: Verifique suas credenciais.",
             response.status
           );
         } else {
-          activePopupInfo(false)
+          activePopupInfo(false);
           console.log(
             "Erro desconhecido ao tentar registrar:",
             response.status
@@ -54,12 +56,12 @@ function Register({activeInfo}) {
   function validateEmail(emailInput) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(emailInput);
-  };
+  }
 
- function validatePassword(passwordInput) {
+  function validatePassword(passwordInput) {
     const passwordRegex = /^.{6,}$/;
     return passwordRegex.test(passwordInput);
-  };
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;

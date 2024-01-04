@@ -62,7 +62,6 @@ function App() {
   async function handleTokenCheck() {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
-      //melhorar a validação e colocar tempo
       try {
         const response = await auth.checkToken(jwt);
         const { data } = await response.json();
