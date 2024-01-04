@@ -230,7 +230,7 @@ function App() {
          {isPopupInfoOpen && (<InfoTooltip
             isOpen={isPopupInfoOpen}
             onClose={closeAllPopups}
-            isSuccess={false}
+            isSuccess={isSuccess}
           />)}
         </Route>
         <Route path="/login">
