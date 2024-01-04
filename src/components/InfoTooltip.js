@@ -62,7 +62,7 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
     
   return (
     <div className={`info ${shouldRenderPopup ? "info__popup_opened" : ""}${
-      isClosing ? "info__popup__closing" : ""
+      isClosing ? "info__popup_closing" : ""
     }`} onClick={handleOverlayClick} >
       <div className="info__popup">
         {isSuccess ? (
