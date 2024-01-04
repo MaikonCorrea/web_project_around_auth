@@ -7,12 +7,13 @@ export default function Header({ isLoggedIn, handleLogout, userEmail }) {
   const history = useHistory();
   const [stateScreen, setStateScreen] = useState(false);
   const [widthscreen, setWidthscreen] = useState(window.innerWidth);
-  const [menuOpen, setMenuOpen] = useState(false); // Novo estado para controlar a abertura/fechamento do menu
-
+  const [menuOpen, setMenuOpen] = useState(false); 
+  
   function SignOut() {
     handleLogout();
     localStorage.removeItem("jwt");
     history.push("/login");
+    setMenuOpen(false);
   }
 
   useEffect(() => {
@@ -29,16 +30,18 @@ export default function Header({ isLoggedIn, handleLogout, userEmail }) {
 
   useEffect(() => {
     setStateScreen(widthscreen <= 588);
+    if (widthscreen > 588) {
+      setMenuOpen(false);
+    }
   }, [widthscreen]);
 
   function toggleMenu() {
     setMenuOpen(!menuOpen);
   }
-
   return (
     <>
       <header className="header">
-        {(!stateScreen || menuOpen) &&
+        {(menuOpen) &&
           isLoggedIn &&
           location.pathname === "/profile" && (
             <div className="header__container--open">
