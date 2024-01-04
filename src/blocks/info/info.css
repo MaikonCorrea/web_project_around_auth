@@ -67,9 +67,13 @@
 
 @media screen and (max-width: 588px) {
   .info__popup {
-    width: 282px;
-    height: 322px;
+    width: 280px;
+    height: 308px;
     top: 172px;
+  }
+
+  .info__image {
+    margin-top: 50px;
   }
 
   .info__button-close-popup {
@@ -77,5 +81,13 @@
     height: 26px;
     right: 127px;
     top: -63.62px;
+  }
+
+  .info__description {
+    width: 242px;
+    height: 72px;
+    margin-top: 25px;
+    font-size: 24px;
+    
   }
 }
