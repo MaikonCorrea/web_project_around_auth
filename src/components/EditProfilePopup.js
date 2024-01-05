@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const currentUser = useContext(CurrentUserContext);
@@ -17,24 +17,30 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     }
   }, [isOpen, currentUser]);
 
-  const handleNameChange = (e) => {
+  function handleNameChange(e) {
     const newName = e.target.value;
     setName(newName);
     setIsNameValid(newName.length >= 2);
   };
 
-  const handleDescriptionChange = (e) => {
+  function handleDescriptionChange(e) {
     const newDescription = e.target.value;
     setDescription(newDescription);
     setIsDescriptionValid(newDescription.length >= 2);
   };
 
-  const handleSubmit = () => {
+  function escapeHTML(text) {
+    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function handleSubmit() {
     onUpdateUser({
-      name,
-      about: description,
+      name: escapeHTML(name),
+      about: escapeHTML(description),
     });
   };
+
+
 
   return (
     <PopupWithForm
@@ -72,3 +78,5 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     </PopupWithForm>
   );
 }
+
+export default EditProfilePopup;
