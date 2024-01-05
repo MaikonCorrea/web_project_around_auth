@@ -24,12 +24,6 @@
 @import url(./blocks/edit/edit.css);
 /* photograph */
 @import url(./blocks/photograph/photograph.css);
-@import url(./blocks/photograph/__popup/photograph__popup.css);
-@import url(./blocks/photograph/__popup-title/photograph__popup-title.css);
-@import url(./blocks/photograph/__input-link/photograph__input-link.css);
-@import url(./blocks/photograph/__button-save/photograph__button-save.css);
-@import url(./blocks/photograph/__button-save_disabled/photograph__button-save_disabled.css);
-@import url(./blocks/photograph/__button-close-popup/photograph__button-close-popup.css);
 /* delete */
 @import url(./blocks/delete/delete.css);
 /* include */
