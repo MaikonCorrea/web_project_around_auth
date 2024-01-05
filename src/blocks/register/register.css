@@ -55,6 +55,12 @@ input:-webkit-autofill {
   background: rgba(255, 255, 255, 0.548);
 }
 
+.register__button-confim--disabled {
+  opacity: 0.2;
+  cursor: default;
+  pointer-events: none;
+}
+
 .register__signup {
   display: flex;
   color: #ffffff;

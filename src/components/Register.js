@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
@@ -10,6 +10,8 @@ function Register({ activeInfo }) {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [buttonDesabled, setButtonDesabled] = useState(false);
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -69,14 +71,14 @@ function Register({ activeInfo }) {
     if (name === "email") {
       setEmail(value);
       setEmailError(
-        value.trim() === "" || validateEmail(value)
+        !value.trim() === "" || validateEmail(value)
           ? ""
           : "Digite um endereço de e-mail válido!"
       );
     } else if (name === "password") {
       setPassword(value);
       setPasswordError(
-        value.trim() === "" || validatePassword(value)
+        !value.trim() === "" || validatePassword(value)
           ? ""
           : "a senha deve conter no mínimo 6 caracteres"
       );
@@ -115,7 +117,7 @@ function Register({ activeInfo }) {
           }}
         />
         <span className="span span_password-message">{passwordError}</span>
-        <button className="register__button-confirm" onClick={handleSubmit}>
+        <button className={`register__button-confirm ${emailError || passwordError ? "register__button-confim--disabled" : ""}`} onClick={handleSubmit}>
           Inscrever-se
         </button>
         <div className="register__signup">
