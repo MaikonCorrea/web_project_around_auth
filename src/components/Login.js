@@ -25,15 +25,16 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
       response = await response.json();
       if (response.token) {
         const expirationTimeInHours = 24;
-        const expirationTimeInMilliseconds = expirationTimeInHours * 60 * 60 * 1000;
+        const expirationTimeInMilliseconds =
+          expirationTimeInHours * 60 * 60 * 1000;
         const token = response.token;
         localStorage.setItem("jwt", token);
         handleLogin(token);
         history.push("/profile");
         setTimeout(() => {
           localStorage.removeItem("jwt");
-           handleLogout();
-           history.push("/login");
+          handleLogout();
+          history.push("/login");
         }, expirationTimeInMilliseconds);
         history.push("/profile");
       }
@@ -45,12 +46,12 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
   function validateEmail(emailInput) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(emailInput);
-  };
+  }
 
   function validatePassword(passwordInput) {
     const passwordRegex = /^.{6,}$/;
     return passwordRegex.test(passwordInput);
-  };
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -69,7 +70,7 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
           : "A senha deve conter no mínimo 6 caracteres"
       );
     }
-  };
+  }
 
   function activePopupInfo(params) {
     activeInfo(params);
