@@ -25,19 +25,12 @@
 @import url(./blocks/gallery/gallery.css);
 /* screen */
 @import url(./blocks/screen/screen.css);
-@import url(./blocks/screen/__image-popup/screen__image-popup.css);
-@import url(./blocks/screen/__popup-title/screen__popup-title.css);
-@import url(./blocks/screen/__button-close-popup/screen__button-close-popup.css);
-@import url(./blocks/screen/__image-dynamics/screen__image-dynamics.css);
-@import url(./blocks/screen/__image_opened/screen__image_opened.css);
-@import url(./blocks/screen/__image_closing/screen__image_closing.css);
 /* place */
 @import url(./blocks/place/place.css);
 /* footer */
 @import url(./blocks/footer/footer.css);
 /* span */
 @import url(./blocks/span/span.css);
-@import url(./blocks/span/__error/span__error.css);
 /* loading */
 @import url(./blocks/loading/loading.css);
 /* login */
