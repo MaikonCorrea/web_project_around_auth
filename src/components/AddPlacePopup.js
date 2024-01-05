@@ -17,7 +17,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
       onAddPlaceSubmit({
         likes: [],
         name: DOMPurify.sanitize(title),
-        link: DOMPurify.sanitize(imageUrl),
+        link: imageUrl,
         owner: owner,
       });
     }

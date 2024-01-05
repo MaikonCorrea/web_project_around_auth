@@ -1,24 +1,23 @@
 import React, { useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const avatarInputRef = useRef(null);
   const [avatarError, setAvatarError] = useState("");
   const [isValueValid, setIsValueValid] = useState(false);
 
-  const handleSubmit = () => {
+  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+  function handleSubmit() {
     const avatarSrc = avatarInputRef.current.value;
     onUpdateAvatar({
       avatar: avatarSrc,
     });
   };
 
-  const handleChange = () => {
+  function handleChange() {
     const avatarSrc = avatarInputRef.current.value;
-    if (
-      !avatarSrc ||
-      (!avatarSrc.includes("http://") && !avatarSrc.includes("https://"))
-    ) {
+    if (!avatarSrc || !urlRegex.test(avatarSrc)) {
       setAvatarError('digite uma URL válida!"');
       setIsValueValid(false);
     } else {
@@ -48,3 +47,5 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     </PopupWithForm>
   );
 }
+
+export default EditAvatarPopup;
