@@ -110,7 +110,7 @@ function App() {
     if (params === false) {
       setIsPopupInfoOpen(true);
       setIsSuccess(false);
-    }else {
+    } else {
       setIsPopupInfoOpen(true);
       setIsSuccess(true);
     }
@@ -223,24 +223,34 @@ function App() {
       />
       <Switch>
         <Route path="/register">
-          <Register activeInfo={(params) => {
-            handleInfoPopup(params);
-          }}/>
-         {isPopupInfoOpen && (<InfoTooltip
-            isOpen={isPopupInfoOpen}
-            onClose={closeAllPopups}
-            isSuccess={isSuccess}
-          />)}
+          <Register
+            activeInfo={(params) => {
+              handleInfoPopup(params);
+            }}
+          />
+          {isPopupInfoOpen && (
+            <InfoTooltip
+              isOpen={isPopupInfoOpen}
+              onClose={closeAllPopups}
+              isSuccess={isSuccess}
+            />
+          )}
         </Route>
         <Route path="/login">
-          <Login handleLogin={handleLogin} handleLogout={handleLogout} activeInfo={(params) => {
-            handleInfoPopup(params)
-          }}/>
-          {isPopupInfoOpen && (<InfoTooltip
-            isOpen={isPopupInfoOpen}
-            onClose={closeAllPopups}
-            isSuccess={isSuccess}
-          />)}
+          <Login
+            handleLogin={handleLogin}
+            handleLogout={handleLogout}
+            activeInfo={(params) => {
+              handleInfoPopup(params);
+            }}
+          />
+          {isPopupInfoOpen && (
+            <InfoTooltip
+              isOpen={isPopupInfoOpen}
+              onClose={closeAllPopups}
+              isSuccess={isSuccess}
+            />
+          )}
         </Route>
         <ProtectedRoute isLoggedIn={isLoggedIn} path="/profile">
           <Route path="/profile">
