@@ -63,7 +63,7 @@ function Register({ activeInfo }) {
     return passwordRegex.test(passwordInput);
   }
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
 
     if (name === "email") {
@@ -78,7 +78,7 @@ function Register({ activeInfo }) {
       setPasswordError(
         value.trim() === "" || validatePassword(value)
           ? ""
-          : "a senha deve conter no mínimo 8 caracteres"
+          : "a senha deve conter no mínimo 6 caracteres"
       );
     }
   };
