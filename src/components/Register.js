@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, withRouter, useHistory } from "react-router-dom";
 
 import * as auth from "../utils/auth";
@@ -10,9 +10,7 @@ function Register({ activeInfo }) {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [buttonDesabled, setButtonDesabled] = useState(false);
-
-
+  
   async function handleSubmit(e) {
     e.preventDefault();
 

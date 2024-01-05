@@ -80,7 +80,7 @@ input:-webkit-autofill {
   line-height: normal;
 }
 
-.signup__link:hover {
+.register__signup_link:hover {
   color: rgba(255, 255, 255, 0.548);
 }
 
