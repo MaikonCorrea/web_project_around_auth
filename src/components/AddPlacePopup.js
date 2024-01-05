@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { owner } from "../constants/constants";
+import DOMPurify from "dompurify";
 
 export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
   const [title, setTitle] = useState("");
@@ -9,12 +10,14 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
   const [isImageUrlValid, setIsImageUrlValid] = useState(false);
   const isValueValid = isTitleValid && isImageUrlValid;
 
+  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
   const handleSubmit = () => {
     if (isTitleValid && isImageUrlValid) {
       onAddPlaceSubmit({
         likes: [],
-        name: title,
-        link: imageUrl,
+        name: DOMPurify.sanitize(title),
+        link: DOMPurify.sanitize(imageUrl),
         owner: owner,
       });
     }
@@ -30,8 +33,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
     const newImageUrl = e.target.value;
     setImageUrl(newImageUrl);
 
-    const isValidUrl =
-      newImageUrl.includes("http://") || newImageUrl.includes("https://");
+    const isValidUrl = urlRegex.test(newImageUrl);
     setIsImageUrlValid(isValidUrl && newImageUrl.length >= 2);
   };
 
