@@ -15,6 +15,7 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
     e.preventDefault();
     if (!email || !password) {
       activePopupInfo(false);
+      console.log("oi")
       return;
     }
     try {
@@ -58,14 +59,14 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
     if (name === "email") {
       setEmail(value);
       setEmailError(
-        !value.trim() === "" || validateEmail(value)
+        value.trim() === "" || validateEmail(value)
           ? ""
           : "Digite um endereço de e-mail válido!"
       );
     } else if (name === "password") {
       setPassword(value);
       setPasswordError(
-        !value.trim() === "" || validatePassword(value)
+        value.trim() === "" || validatePassword(value)
           ? ""
           : "A senha deve conter no mínimo 6 caracteres"
       );
@@ -104,7 +105,7 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
           }}
         />
         <span className="span span_password-message">{passwordError}</span>
-        <button className={`login__button-confirm ${emailError || passwordError ? "login__button-confim--disabled" : ""}`} onClick={handleSubmit}>
+        <button className={`login__button-confirm ${emailError || passwordError || email === "" || password === "" ? "login__button-confim--disabled" : ""}`} onClick={handleSubmit}>
           Entrar
         </button>
         <div className="login__signup">

@@ -69,14 +69,14 @@ function Register({ activeInfo }) {
     if (name === "email") {
       setEmail(value);
       setEmailError(
-        !value.trim() === "" || validateEmail(value)
+        value.trim() === "" || validateEmail(value)
           ? ""
           : "Digite um endereço de e-mail válido!"
       );
     } else if (name === "password") {
       setPassword(value);
       setPasswordError(
-        !value.trim() === "" || validatePassword(value)
+        value.trim() === "" || validatePassword(value)
           ? ""
           : "a senha deve conter no mínimo 6 caracteres"
       );
@@ -115,7 +115,7 @@ function Register({ activeInfo }) {
           }}
         />
         <span className="span span_password-message">{passwordError}</span>
-        <button className={`register__button-confirm ${emailError || passwordError ? "register__button-confim--disabled" : ""}`} onClick={handleSubmit}>
+        <button className={`register__button-confirm ${emailError || passwordError || email === "" || password === "" ? "register__button-confim--disabled" : ""}`} onClick={handleSubmit}>
           Inscrever-se
         </button>
         <div className="register__signup">
