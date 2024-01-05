@@ -7,7 +7,7 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    const handleEscape = (event) => {
+    function handleEscape(event) {
       if (event.key === "Escape" && isOpen) {
         setIsClosing(true);
 
@@ -16,7 +16,7 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
           onClose();
         }, 200);
       }
-    };
+    }
 
     document.addEventListener("keydown", handleEscape);
 
@@ -50,7 +50,7 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
     }
   }, [isOpen]);
 
-  const handleOverlayClick = (event) => {
+  function handleOverlayClick(event) {
     if (event.target === event.currentTarget) {
       event.preventDefault();
       setIsClosing(true);
@@ -58,12 +58,15 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
         onClose();
       }, 150);
     }
-  };
-    
+  }
+
   return (
-    <div className={`info ${shouldRenderPopup ? "info__popup_opened" : ""}${
-      isClosing ? "info__popup_closing" : ""
-    }`} onClick={handleOverlayClick} >
+    <div
+      className={`info ${shouldRenderPopup ? "info__popup_opened" : ""}${
+        isClosing ? "info__popup_closing" : ""
+      }`}
+      onClick={handleOverlayClick}
+    >
       <div className="info__popup">
         {isSuccess ? (
           <img className="info__image" src={imageOk} alt="imagem de sucesso" />
@@ -71,13 +74,18 @@ function InfoTooltip({ isSuccess, onClose, isOpen }) {
           <img className="info__image" src={imageError} alt="imagem de erro" />
         )}
         {isSuccess ? (
-          <p className="info__description">Vitória! Você precisa fazer o login.</p>
+          <p className="info__description">
+            Vitória! Agora você precisa fazer o login.
+          </p>
         ) : (
           <p className="info__description">
-            Ops, algo saiu deu errado! Por favor, tente novamente.
+            Ops, algo deu errado! Por favor, tente novamente.
           </p>
         )}
-        <button className="info__button-close-popup button__close-popup" onClick={handleOverlayClick}></button>
+        <button
+          className="info__button-close-popup button__close-popup"
+          onClick={handleOverlayClick}
+        ></button>
       </div>
     </div>
   );
