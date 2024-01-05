@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-export default function DeletePopupCard({isOpen, onClose, handleCardDelete}) {
+function DeletePopupCard({ isOpen, onClose, handleCardDelete }) {
   const [shouldRenderPopup, setShouldRenderPopup] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    const handleEscape = (event) => {
+    function handleEscape(event) {
       if (event.key === "Escape" && isOpen) {
         setIsClosing(true);
 
@@ -14,7 +14,7 @@ export default function DeletePopupCard({isOpen, onClose, handleCardDelete}) {
           onClose();
         }, 200);
       }
-    };
+    }
 
     document.addEventListener("keydown", handleEscape);
 
@@ -48,7 +48,7 @@ export default function DeletePopupCard({isOpen, onClose, handleCardDelete}) {
     }
   }, [isOpen]);
 
-  const handleOverlayClick = (event) => {
+  function handleOverlayClick(event) {
     if (event.target === event.currentTarget) {
       event.preventDefault();
       setIsClosing(true);
@@ -56,12 +56,12 @@ export default function DeletePopupCard({isOpen, onClose, handleCardDelete}) {
         onClose();
       }, 150);
     }
-  };
+  }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     handleCardDelete();
-  };
+  }
 
   return (
     <form
@@ -94,3 +94,5 @@ export default function DeletePopupCard({isOpen, onClose, handleCardDelete}) {
     </form>
   );
 }
+
+export default DeletePopupCard;
