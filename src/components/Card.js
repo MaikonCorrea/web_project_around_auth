@@ -4,7 +4,7 @@ import iconLikeAble from "../images/button_Like_Able.png";
 import iconLikeDesable from "../images/button_Like_Desable.png";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function Card(props) {
+function Card(props) {
   function handleClick() {
     props.onCardClick(props.card);
   }
@@ -58,3 +58,5 @@ export default function Card(props) {
     </li>
   );
 }
+
+export default Card;
