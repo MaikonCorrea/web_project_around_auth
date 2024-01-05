@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-export default function ImagePopup({ card, isOpen, onClose }) {
+function ImagePopup({ card, isOpen, onClose }) {
   const [shouldRenderPopup, setShouldRenderPopup] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    const handleEscape = (event) => {
+    function handleEscape(event) {
       if (event.key === "Escape" && isOpen) {
         setIsClosing(true);
 
@@ -48,7 +48,7 @@ export default function ImagePopup({ card, isOpen, onClose }) {
     }
   }, [isOpen]);
 
-  const handleOverlayClick = (event) => {
+  function handleOverlayClick(event) {
     if (event.target === event.currentTarget) {
       event.preventDefault();
       setIsClosing(true);
@@ -79,3 +79,5 @@ export default function ImagePopup({ card, isOpen, onClose }) {
     </div>
   );
 }
+
+export default ImagePopup;
