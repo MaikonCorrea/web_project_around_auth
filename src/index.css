@@ -22,15 +22,6 @@
 @import url(./blocks/profile/__info-name_smallest/profile__info-name_smallest.css);
 /* edit */
 @import url(./blocks/edit/edit.css);
-@import url(./blocks/edit/__popup/edit__popup.css);
-@import url(./blocks/edit/__popup-title/edit__popup-title.css);
-@import url(./blocks/edit/__input-name/edit__input-name.css);
-@import url(./blocks/edit/__input-about/edit__input-about.css);
-@import url(./blocks/edit/__button-save/edit__button-save.css);
-@import url(./blocks/edit/__button-close-popup/edit__button-close-popup.css);
-@import url(./blocks/edit/__popup_opened/edit__popup_opened.css);
-@import url(./blocks/edit/__popup_closing/edit__popup_closing.css);
-@import url(./blocks/edit/__button-save_disabled/edit__button-save_disabled.css);
 /* photograph */
 @import url(./blocks/photograph/photograph.css);
 @import url(./blocks/photograph/__popup/photograph__popup.css);
@@ -41,10 +32,6 @@
 @import url(./blocks/photograph/__button-close-popup/photograph__button-close-popup.css);
 /* delete */
 @import url(./blocks/delete/delete.css);
-@import url(./blocks/delete/__popup/delete__popup.css);
-@import url(./blocks/delete/__popup-title/delete__popup-title.css);
-@import url(./blocks/delete/__button-save/delete__button-save.css);
-@import url(./blocks/delete/__button-close-popup/delete__button-close-popup.css);
 /* include */
 @import url(./blocks/include/include.css);
 @import url(./blocks/include/__popup/include__popup.css);
