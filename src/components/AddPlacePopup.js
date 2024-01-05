@@ -3,7 +3,7 @@ import PopupWithForm from "./PopupWithForm";
 import { owner } from "../constants/constants";
 import DOMPurify from "dompurify";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isTitleValid, setIsTitleValid] = useState(false);
@@ -12,7 +12,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
 
   const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 
-  const handleSubmit = () => {
+  function handleSubmit() {
     if (isTitleValid && isImageUrlValid) {
       onAddPlaceSubmit({
         likes: [],
@@ -21,21 +21,21 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
         owner: owner,
       });
     }
-  };
+  }
 
-  const handleTitleChange = (e) => {
+  function handleTitleChange(e) {
     const newTitle = e.target.value;
     setTitle(newTitle);
     setIsTitleValid(newTitle.length >= 2);
-  };
+  }
 
-  const handleImageUrlChange = (e) => {
+  function handleImageUrlChange(e) {
     const newImageUrl = e.target.value;
     setImageUrl(newImageUrl);
 
     const isValidUrl = urlRegex.test(newImageUrl);
     setIsImageUrlValid(isValidUrl && newImageUrl.length >= 2);
-  };
+  }
 
   return (
     <PopupWithForm
@@ -75,3 +75,5 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
     </PopupWithForm>
   );
 }
+
+export default AddPlacePopup;
