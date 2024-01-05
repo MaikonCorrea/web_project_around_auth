@@ -10,16 +10,6 @@
 @import url(./blocks/header/header.css);
 /* profile */
 @import url(./blocks/profile/profile.css);
-@import url(./blocks/profile/__image/profile__image.css);
-@import url(./blocks/profile/__button-info/profile__button-info.css);
-@import url(./blocks/profile/__image-button-info/profile__image-button-info.css);
-@import url(./blocks/profile/__info/profile__info.css);
-@import url(./blocks/profile/__info-name/profile__info-name.css);
-@import url(./blocks/profile/__info-discription/profile__info-discription.css);
-@import url(./blocks/profile/__button-include/profile__button-include.css);
-@import url(./blocks/profile/__button-edit-image/profile__button-edit-image.css);
-@import url(./blocks/profile/__info-name_smaller/profile__info-name_smaller.css);
-@import url(./blocks/profile/__info-name_smallest/profile__info-name_smallest.css);
 /* edit */
 @import url(./blocks/edit/edit.css);
 /* photograph */
