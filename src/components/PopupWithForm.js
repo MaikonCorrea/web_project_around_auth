@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-export default function PopupWithForm({isOpen, onClose, onSubmit, ...props}) {
+function PopupWithForm({ isOpen, onClose, onSubmit, ...props }) {
   const [shouldRenderPopup, setShouldRenderPopup] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    const handleEscape = (event) => {
+    function handleEscape(event) {
       if (event.key === "Escape" && isOpen) {
         setIsClosing(true);
 
@@ -14,7 +13,7 @@ export default function PopupWithForm({isOpen, onClose, onSubmit, ...props}) {
           onClose();
         }, 200);
       }
-    };
+    }
 
     document.addEventListener("keydown", handleEscape);
 
@@ -48,7 +47,7 @@ export default function PopupWithForm({isOpen, onClose, onSubmit, ...props}) {
     }
   }, [isOpen]);
 
-  const handleOverlayClick = (event) => {
+  function handleOverlayClick(event) {
     if (event.target === event.currentTarget) {
       event.preventDefault();
       setIsClosing(true);
@@ -56,12 +55,12 @@ export default function PopupWithForm({isOpen, onClose, onSubmit, ...props}) {
         onClose();
       }, 150);
     }
-  };
+  }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     onSubmit();
-  };
+  }
 
   return (
     <form
@@ -97,3 +96,5 @@ export default function PopupWithForm({isOpen, onClose, onSubmit, ...props}) {
     </form>
   );
 }
+
+export default PopupWithForm;
