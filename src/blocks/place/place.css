@@ -55,26 +55,22 @@
 }
 
 .place__button-like_active {
-  background: url('../../images/button_Like_Able.png') center no-repeat;
+  background: url("../../images/button_Like_Able.png") center no-repeat;
   background-size: contain;
-  }
+}
 
-  .place__button-like {
-    background-color: rgba(0, 0, 0, 0);
-    background-size: 100%;
-    width: 21px;
-    height: 19px;
-    cursor: pointer;
-    border: none;
-    margin-right: 18px;
-  }
-  
-  .place__button-like:hover {
-    opacity: 0.5;
-  }
+.place__button-like {
+  background-color: rgba(0, 0, 0, 0);
+  background-size: 100%;
+  width: 21px;
+  height: 19px;
+  cursor: pointer;
+  border: none;
+  margin-right: 18px;
+}
 
-  .place__button-delete_visible {
-    visibility: visible;
+.place__button-like:hover {
+  opacity: 0.5;
 }
 
 .place__button-delete {
@@ -91,6 +87,10 @@
 
 .place__button-delete:hover {
   opacity: 0.8;
+}
+
+.place__button-delete_visible {
+  visibility: visible;
 }
 
 @media screen and (max-width: 768px) {
