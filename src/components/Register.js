@@ -10,7 +10,7 @@ function Register({ activeInfo }) {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -81,7 +81,7 @@ function Register({ activeInfo }) {
           : "a senha deve conter no mínimo 6 caracteres"
       );
     }
-  };
+  }
 
   function activePopupInfo(params) {
     activeInfo(params);
@@ -115,7 +115,14 @@ function Register({ activeInfo }) {
           }}
         />
         <span className="span span_password-message">{passwordError}</span>
-        <button className={`register__button-confirm ${emailError || passwordError || email === "" || password === "" ? "register__button-confim--disabled" : ""}`} onClick={handleSubmit}>
+        <button
+          className={`register__button-confirm ${
+            emailError || passwordError || email === "" || password === ""
+              ? "register__button-confim--disabled"
+              : ""
+          }`}
+          onClick={handleSubmit}
+        >
           Inscrever-se
         </button>
         <div className="register__signup">

@@ -15,7 +15,7 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
     e.preventDefault();
     if (!email || !password) {
       activePopupInfo(false);
-      console.log("oi")
+      console.log("oi");
       return;
     }
     try {
@@ -105,7 +105,14 @@ function Login({ handleLogin, handleLogout, activeInfo }) {
           }}
         />
         <span className="span span_password-message">{passwordError}</span>
-        <button className={`login__button-confirm ${emailError || passwordError || email === "" || password === "" ? "login__button-confim--disabled" : ""}`} onClick={handleSubmit}>
+        <button
+          className={`login__button-confirm ${
+            emailError || passwordError || email === "" || password === ""
+              ? "login__button-confim--disabled"
+              : ""
+          }`}
+          onClick={handleSubmit}
+        >
           Entrar
         </button>
         <div className="login__signup">
