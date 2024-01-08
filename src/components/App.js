@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect, withRouter, useHistory } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter,
+  useHistory,
+} from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -33,10 +39,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [emailUser, setEmailUser] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     handleTokenCheck();
@@ -84,21 +86,43 @@ function App() {
     }
   }
 
-  const loginUser = async (email, password) => {
+  async function registerUser(email, password) {
+    try {
+      const response = await auth.register({ email, password });
+      if (response.ok) {
+        handleInfoPopup(true);
+        history.push("/login");
+      } else {
+        handleInfoPopup(false);
+  
+        if (response.status === 400) {
+          console.log("Um dos campos foi preenchido incorretamente:", response.status);
+        } else if (response.status === 401) {
+          alert("Não autorizado: Verifique suas credenciais.", response.status);
+        } else {
+          console.log("Erro desconhecido ao tentar registrar:", response.status);
+        }
+      }
+    } catch (error) {
+      console.error("Erro no registro:", error.message);
+    }
+  }
+
+  async function loginUser(email, password) {
     try {
       let response = await auth.authorize({ email, password });
-      if (response.status === 401) {
+      if (!response.ok) {
         handleInfoPopup(false);
+        throw new Error("Credenciais inválidas");
       }
+  
       response = await response.json();
       if (response.token) {
         const expirationTimeInHours = 24;
-        const expirationTimeInMilliseconds =
-          expirationTimeInHours * 60 * 60 * 1000;
+        const expirationTimeInMilliseconds = expirationTimeInHours * 60 * 60 * 1000;
         const token = response.token;
         localStorage.setItem("jwt", token);
         handleLogin(token);
-        history.push("/profile");
         setTimeout(() => {
           localStorage.removeItem("jwt");
           handleLogout();
@@ -107,38 +131,9 @@ function App() {
         history.push("/profile");
       }
     } catch (error) {
-      console.log("Error login:", error);
+      console.error("Erro no login:", error.message);
     }
-  };
-
-  const validateEmail = (emailInput) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(emailInput);
-  };
-
-  const validatePassword = (passwordInput) => {
-    const passwordRegex = /^.{6,}$/;
-    return passwordRegex.test(passwordInput);
-  };
-
-  const handleLoginChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "email") {
-      setEmail(value);
-      setEmailError(
-        value.trim() === "" || validateEmail(value)
-          ? ""
-          : "Digite um endereço de e-mail válido!"
-      );
-    } else if (name === "password") {
-      setPassword(value);
-      setPasswordError(
-        value.trim() === "" || validatePassword(value)
-          ? ""
-          : "A senha deve conter no mínimo 6 caracteres"
-      );
-    }
-  };
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -276,6 +271,7 @@ function App() {
       <Switch>
         <Route path="/register">
           <Register
+            registerUser={registerUser}
             activeInfo={(params) => {
               handleInfoPopup(params);
             }}
@@ -291,9 +287,6 @@ function App() {
         <Route path="/login">
           <Login
             loginUser={loginUser}
-            validateEmail={validateEmail}
-            validatePassword={validatePassword}
-            handleLoginChange={handleLoginChange}
             handleLogout={handleLogout}
             activeInfo={(params) => {
               handleInfoPopup(params);
@@ -374,4 +367,3 @@ function App() {
 }
 
 export default withRouter(App);
-

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-import * as auth from "../utils/auth";
 
-function Register({ activeInfo }) {
-  const history = useHistory();
+function Register({ activeInfo, registerUser }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,43 +11,10 @@ function Register({ activeInfo }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    if (!email || !password) {
-      activePopupInfo(false);
-      return;
-    }
-
     try {
-      const response = await auth.register({ email, password });
-      if (response.ok) {
-        activePopupInfo(true);
-        setEmail("");
-        setPassword("");
-        history.push("/login");
-      } else {
-        activePopupInfo(false);
-        if (response.status === 400) {
-          activePopupInfo(false);
-          console.log(
-            "Um dos campos foi preenchido incorretamente:",
-            response.status
-          );
-        } else if (response.status === 401) {
-          activePopupInfo(false);
-          console.log(
-            "Não autorizado: Verifique suas credenciais.",
-            response.status
-          );
-        } else {
-          activePopupInfo(false);
-          console.log(
-            "Erro desconhecido ao tentar registrar:",
-            response.status
-          );
-        }
-      }
+      await registerUser(email, password);
     } catch (error) {
-      console.log("Erro no Registro:", error.message);
+      
     }
   }
 

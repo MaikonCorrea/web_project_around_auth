@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 
-function Login({
-  loginUser,
-  validateEmail,
-  validatePassword,
-  handleLoginChange,
-  handleLogout,
-  activeInfo,
-}) {
-
+function Login({ loginUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -24,8 +16,34 @@ function Login({
     }
   }
 
+  function validateEmail(emailInput) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailInput);
+  }
+
+  function validatePassword(passwordInput) {
+    const passwordRegex = /^.{6,}$/;
+    return passwordRegex.test(passwordInput);
+  }
+
   function handleChange(e) {
-    handleLoginChange(e);
+    const { name, value } = e.target;
+
+    if (name === "email") {
+      setEmail(value);
+      setEmailError(
+        value.trim() === "" || validateEmail(value)
+          ? ""
+          : "Digite um endereço de e-mail válido!"
+      );
+    } else if (name === "password") {
+      setPassword(value);
+      setPasswordError(
+        value.trim() === "" || validatePassword(value)
+          ? ""
+          : "a senha deve conter no mínimo 6 caracteres"
+      );
+    }
   }
 
   return (
