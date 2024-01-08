@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Route,
-  Switch,
-  Redirect,
-  withRouter,
-  useHistory,
-} from "react-router-dom";
-
+import { Route, Switch, Redirect, withRouter, useHistory } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -19,12 +12,10 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import DeletePopupCard from "./DeletePopupCard";
 import InfoTooltip from "./InfoTooltip";
-
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentCardsContext from "../contexts/CurrentCardsContext";
 import clientAPI from "../utils/api";
 import * as auth from "../utils/auth";
-
 import "../index.css";
 
 function App() {
@@ -42,6 +33,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [emailUser, setEmailUser] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     handleTokenCheck();
@@ -88,6 +83,62 @@ function App() {
       console.log("erro em solicitar retorno do data", error);
     }
   }
+
+  const loginUser = async (email, password) => {
+    try {
+      let response = await auth.authorize({ email, password });
+      if (response.status === 401) {
+        handleInfoPopup(false);
+      }
+      response = await response.json();
+      if (response.token) {
+        const expirationTimeInHours = 24;
+        const expirationTimeInMilliseconds =
+          expirationTimeInHours * 60 * 60 * 1000;
+        const token = response.token;
+        localStorage.setItem("jwt", token);
+        handleLogin(token);
+        history.push("/profile");
+        setTimeout(() => {
+          localStorage.removeItem("jwt");
+          handleLogout();
+          history.push("/login");
+        }, expirationTimeInMilliseconds);
+        history.push("/profile");
+      }
+    } catch (error) {
+      console.log("Error login:", error);
+    }
+  };
+
+  const validateEmail = (emailInput) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailInput);
+  };
+
+  const validatePassword = (passwordInput) => {
+    const passwordRegex = /^.{6,}$/;
+    return passwordRegex.test(passwordInput);
+  };
+
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "email") {
+      setEmail(value);
+      setEmailError(
+        value.trim() === "" || validateEmail(value)
+          ? ""
+          : "Digite um endereço de e-mail válido!"
+      );
+    } else if (name === "password") {
+      setPassword(value);
+      setPasswordError(
+        value.trim() === "" || validatePassword(value)
+          ? ""
+          : "A senha deve conter no mínimo 6 caracteres"
+      );
+    }
+  };
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -160,6 +211,7 @@ function App() {
         renderLoading(false);
       });
   }
+
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     const apiMethod = isLiked ? "deleteLike" : "addLike";
@@ -238,7 +290,10 @@ function App() {
         </Route>
         <Route path="/login">
           <Login
-            handleLogin={handleLogin}
+            loginUser={loginUser}
+            validateEmail={validateEmail}
+            validatePassword={validatePassword}
+            handleLoginChange={handleLoginChange}
             handleLogout={handleLogout}
             activeInfo={(params) => {
               handleInfoPopup(params);
@@ -283,7 +338,7 @@ function App() {
                 )}
                 {isEditProfilePopupOpen && (
                   <EditProfilePopup
-                    isOpen={handleEditProfileClick}
+                    isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     onSave={handleUpdateUser}
                     onUpdateUser={handleUpdateUser}
@@ -291,14 +346,14 @@ function App() {
                 )}
                 {isAddPlacePopupOpen && (
                   <AddPlacePopup
-                    isOpen={handleAddPlaceClick}
+                    isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
                     onAddPlaceSubmit={handleAddPlaceSubmit}
                   />
                 )}
                 {isDeletePopupOpen && (
                   <DeletePopupCard
-                    isOpen={handleDeleteCardClick}
+                    isOpen={isDeletePopupOpen}
                     onClose={() => setIsDeletePopupOpen(false)}
                     handleCardDelete={() => {
                       handleCardDelete();
@@ -319,3 +374,4 @@ function App() {
 }
 
 export default withRouter(App);
+
