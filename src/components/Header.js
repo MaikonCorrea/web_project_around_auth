@@ -56,13 +56,13 @@ export default function Header({ isLoggedIn, handleLogout, userEmail }) {
           <img className="header__logo" src={headerLogo} alt="logo do site" />
           <div className="header__menu">
             {location.pathname === "/login" && (
-              <Link to="/login" className="header__menu-button">
+              <Link to="/register" className="header__menu-button">
                 Entrar
               </Link>
             )}
 
             {location.pathname === "/register" && (
-              <Link to="/register" className="header__menu-button">
+              <Link to="/login" className="header__menu-button">
                 Faça o login
               </Link>
             )}

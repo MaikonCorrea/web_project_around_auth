@@ -358,7 +358,7 @@ function App() {
             </CurrentUserContext.Provider>
           </Route>
         </ProtectedRoute>
-        <Route exact path="/">
+        <Route path="/">
           {isLoggedIn ? <Redirect to="/profile" /> : <Redirect to="/login" />}
         </Route>
       </Switch>

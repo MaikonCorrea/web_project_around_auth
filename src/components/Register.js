@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 
-function Register({ activeInfo, registerUser }) {
+function Register({ registerUser }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,10 +46,6 @@ function Register({ activeInfo, registerUser }) {
           : "a senha deve conter no mínimo 6 caracteres"
       );
     }
-  }
-
-  function activePopupInfo(params) {
-    activeInfo(params);
   }
 
   return (
